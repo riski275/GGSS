@@ -1,3 +1,3 @@
 # GGSS
-my testing html
-and change .txt to zip
+my testing html.
+Change txt to zip

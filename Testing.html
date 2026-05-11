@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MEME CHAOS FINAL</title>
+
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Comic Sans MS;
+    cursor:crosshair;
+}
+
+/* PLAY BUTTON */
+#playBtn{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:20px 50px;
+    font-size:35px;
+    border:none;
+    border-radius:20px;
+    background:red;
+    color:white;
+    cursor:pointer;
+    z-index:9999;
+}
+
+/* TIMER */
+#timer{
+    position:fixed;
+    top:10px;
+    right:20px;
+    color:white;
+    font-size:50px;
+    z-index:99999;
+    text-shadow:0 0 10px red;
+}
+
+/* IMAGE */
+.faceBox{
+    position:absolute;
+    user-select:none;
+}
+
+.face{
+    position:absolute;
+    pointer-events:none;
+    animation:spin linear infinite;
+}
+
+/* CLOSE BUTTON */
+.closeBtn{
+    position:absolute;
+    top:-10px;
+    right:-10px;
+    width:25px;
+    height:25px;
+    border:none;
+    border-radius:50%;
+    background:red;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:5;
+}
+
+/* FOLLOWER */
+.follower{
+    position:absolute;
+    font-size:40px;
+    pointer-events:none;
+}
+
+/* TEXT CHAOS */
+.textChaos{
+    position:absolute;
+    color:white;
+    font-size:40px;
+    font-weight:bold;
+    text-shadow:0 0 10px red;
+    animation:shake .2s infinite;
+}
+
+/* BLUE SCREEN */
+#blueScreen{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#0000aa;
+    color:white;
+    display:none;
+    z-index:999999;
+    font-family:monospace;
+    padding:40px;
+    box-sizing:border-box;
+}
+
+/* CUTSCENE */
+#cutscene{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+    z-index:9999999;
+    background:black;
+}
+
+@keyframes spin{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes shake{
+    0%{transform:translate(0px,0px);}
+    25%{transform:translate(5px,-5px);}
+    50%{transform:translate(-5px,5px);}
+    75%{transform:translate(5px,5px);}
+    100%{transform:translate(0px,0px);}
+}
+
+</style>
+</head>
+
+<body>
+
+<button id="playBtn">PLAY</button>
+
+<div id="timer">29</div>
+
+<!-- AUDIO -->
+<audio id="sound" loop>
+    <source src="jokowow-difitnah-saya-juga-diam.mp3" type="audio/mpeg">
+</audio>
+
+<!-- BLUE SCREEN -->
+<div id="blueScreen">
+
+<h1> >:)</h1>
+
+<h2>SISTEM BROWSER ANDA TELAH RUSAK</h2>
+
+<p>
+BROWSER ANDA AKAN DI HACK GOJOHIME SEMOGA KALIAN SELAMAT 😈.
+</p>
+
+<p>
+MEMUAT SISTEM GOJO HIME READY FOR JUMPSCARE...
+</p>
+
+</div>
+
+<!-- CUTSCENE IMAGE -->
+<img
+    id="cutscene"
+    src="i_kiss_gojo.jpg"
+/>
+
+<script>
+
+const btn = document.getElementById("playBtn")
+const sound = document.getElementById("sound")
+const timer = document.getElementById("timer")
+const blueScreen = document.getElementById("blueScreen")
+const cutscene = document.getElementById("cutscene")
+
+const emojis = ["🤣","😈","😂","🤪","💀","👻","🤯","😏","☠️"]
+let started = false
+let countdown = 29
+let ended = false
+
+btn.onclick = () => {
+
+    started = true
+
+    sound.play()
+
+    btn.remove()
+
+    // TIMER
+    const countdownLoop = setInterval(()=>{
+
+        if(ended) return
+
+        countdown--
+
+        timer.innerText = countdown
+
+        if(countdown <= 0){
+
+            ended = true
+
+            clearInterval(countdownLoop)
+
+            startEnding()
+        }
+
+    },1000)
+
+    // SPAWN CHAOS
+    setInterval(() => {
+
+        if(!ended){
+            createFace()
+        }
+
+    }, 400)
+
+    // DISCO
+    setInterval(() => {
+
+        if(!ended){
+
+            document.body.style.background =
+                `hsl(${Math.random()*360},100%,50%)`
+        }
+
+    },100)
+
+    // SHAKE
+    setInterval(() => {
+
+        if(!ended){
+
+            document.body.style.transform =
+                `translate(
+                    ${(Math.random()-0.5)*20}px,
+                    ${(Math.random()-0.5)*20}px
+                )`
+        }
+
+    },50)
+
+    // TEXT CHAOS
+    setInterval(() => {
+
+        if(!ended){
+            chaosText()
+        }
+
+    },600)
+}
+
+// CREATE IMAGE
+function createFace(){
+
+    const box = document.createElement("div")
+
+    box.className = "faceBox"
+
+    const size = Math.random()*200 + 50
+
+    let x = Math.random() * (window.innerWidth-size)
+    let y = Math.random() * (window.innerHeight-size)
+
+    box.style.left = x + "px"
+    box.style.top = y + "px"
+
+    const img = document.createElement("img")
+
+    img.src = "ggk.jpg"
+
+    img.className = "face"
+
+    img.style.width = size + "px"
+    img.style.height = size + "px"
+
+    img.style.animationDuration =
+        (Math.random()*4+1)+"s"
+
+    const closeBtn = document.createElement("button")
+
+    closeBtn.innerText = "X"
+
+    closeBtn.className = "closeBtn"
+
+    closeBtn.onclick = () => {
+
+        createFace()
+        createFace()
+        createFace()
+
+        box.remove()
+    }
+
+    box.appendChild(img)
+    box.appendChild(closeBtn)
+
+    document.body.appendChild(box)
+
+    let dx = (Math.random()-0.5)*12
+    let dy = (Math.random()-0.5)*12
+
+    function move(){
+
+        if(ended) return
+
+        x += dx
+        y += dy
+
+        if(x <= 0 || x >= window.innerWidth-size){
+            dx *= -1
+        }
+
+        if(y <= 0 || y >= window.innerHeight-size){
+            dy *= -1
+        }
+
+        box.style.left = x + "px"
+        box.style.top = y + "px"
+
+        requestAnimationFrame(move)
+    }
+
+    move()
+}
+
+// FOLLOW CURSOR
+document.addEventListener("mousemove",(e)=>{
+
+    if(!started || ended) return
+
+    const emoji = document.createElement("div")
+
+    emoji.className = "follower"
+
+    emoji.innerText =
+        emojis[Math.floor(Math.random()*emojis.length)]
+
+    emoji.style.left = e.clientX + "px"
+    emoji.style.top = e.clientY + "px"
+
+    document.body.appendChild(emoji)
+
+    setTimeout(()=>{
+        emoji.remove()
+    },1000)
+})
+
+// CLICK CHAOS
+document.addEventListener("click",(e)=>{
+
+    if(!started || ended) return
+
+    for(let i=0;i<10;i++){
+
+        const emoji = document.createElement("div")
+
+        emoji.className = "follower"
+
+        emoji.innerText =
+            emojis[Math.floor(Math.random()*emojis.length)]
+
+        emoji.style.left =
+            (e.clientX + Math.random()*200-100)+"px"
+
+        emoji.style.top =
+            (e.clientY + Math.random()*200-100)+"px"
+
+        emoji.style.fontSize =
+            (Math.random()*60+20)+"px"
+
+        document.body.appendChild(emoji)
+
+        setTimeout(()=>{
+            emoji.remove()
+        },2000)
+    }
+})
+
+// RANDOM TEXT
+function chaosText(){
+
+    const texts = [
+
+        "YOU ARE AN IDIOT",
+        "NOOBS YOU WILL CRY",
+        "NEVER ESCAPE",
+        "GOJO X UTAHIME",
+        "CPU OVERLOAD",
+        "STILL HERE?"
+
+    ]
+
+    const div = document.createElement("div")
+
+    div.className = "textChaos"
+
+    div.innerText =
+        texts[Math.floor(Math.random()*texts.length)]
+
+    div.style.left =
+        Math.random()*window.innerWidth + "px"
+
+    div.style.top =
+        Math.random()*window.innerHeight + "px"
+
+    document.body.appendChild(div)
+
+    setTimeout(()=>{
+        div.remove()
+    },2000)
+}
+
+// ENDING
+function startEnding(){
+
+    sound.pause()
+
+    // hapus chaos manual
+    document.querySelectorAll(
+        ".faceBox, .follower, .textChaos"
+    ).forEach(el=>{
+        el.remove()
+    })
+
+    // reset layar
+    document.body.style.background = "black"
+    document.body.style.transform = "none"
+
+    // sembunyikan timer
+    timer.style.display = "none"
+
+    // tampilkan blue screen
+    blueScreen.style.display = "block"
+
+    // setelah 5 detik
+    setTimeout(()=>{
+
+        // hilangkan blue screen
+        blueScreen.style.display = "none"
+
+        // tampilkan cutscene
+        cutscene.style.display = "block"
+
+
+    },5000)
+}
+
+</script>
+
+</body>
+</html>
